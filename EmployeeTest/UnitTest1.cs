@@ -1,6 +1,7 @@
 using EmployeePayRolll;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace EmployeeTest
 {
@@ -47,6 +48,14 @@ namespace EmployeeTest
             employeeModel.Basic_Pay = 1100000.00;
             bool result=employeePayRolll.UpdateEmployee(employeeModel);
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void RetriveDataInDateRange()
+        {
+            List<string> result = employeePayRolll.GetEmployeeInDateRange("Select * from employee where StartDate between CAST('2019-01-01' as DATE) and CAST('2020-12-31' as DATE)");
+            int CountNoOfPersons = result.Count;
+            Assert.AreEqual(3, CountNoOfPersons);
         }
     }
 }

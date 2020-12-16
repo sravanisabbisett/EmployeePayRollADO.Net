@@ -22,8 +22,7 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (this.connection)
                 {
-                    string query = @"Select employee_id,Name,Gender,PhoneNumber,Address,StartDate,Department,Basic_Pay,Deductions,
-                                                                                            IncomeTax,TaxablePay,NetPay from employee";
+                    string query = @"Select employee_id,Name,Gender,PhoneNumber,Address,StartDate,Department,Basic_Pay,Deductions,IncomeTax,TaxablePay,NetPay from employee";
 
                     SqlCommand command = new SqlCommand(query, this.connection);
                     this.connection.Open();
@@ -156,5 +155,65 @@ namespace EmployeePayRolll
                 this.connection.Close();
             }
         }
+
+        /// <summary>
+        /// Gets the employee in date range.
+        /// </summary>
+        /// <param name="dateRangeQuery">The date range query.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">
+        /// No data found
+        /// or
+        /// </exception>
+        public List<string> GetEmployeeInDateRange(string dateRangeQuery)
+        {
+            EmployeeModel employeeModel = new EmployeeModel();
+            List<string> results = new List<string>();
+            try
+            {
+                using (this.connection)
+                {
+                    string query = dateRangeQuery;
+                    SqlCommand command = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            employeeModel.employee_id = dr.GetInt32(0);
+                            employeeModel.Name = dr.GetString(1);
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(2));
+                            employeeModel.PhoneNumber = dr.GetString(3);
+                            employeeModel.Address = dr.GetString(4);
+                            employeeModel.StartDate = dr.GetDateTime(5);
+                            employeeModel.Department = dr.GetString(6);
+                            employeeModel.Basic_Pay = dr.GetDouble(7);
+                            employeeModel.Deductions = dr.GetDouble(8);
+                            employeeModel.IncomeTax = dr.GetDouble(9);
+                            employeeModel.TaxablePay = dr.GetDouble(10);
+                            employeeModel.NetPay = dr.GetDouble(11);
+                            results.Add(employeeModel.Name);
+                            Console.WriteLine(employeeModel.Name);
+                        }
+                        dr.Close();
+                        return results;
+                    }
+                    else
+                    {
+                        throw new Exception("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
     }
 }
