@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1300
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeePayRolll", "EmployeePayRolll\EmployeePayRolll.csproj", "{C67CD066-2A01-45ED-8E14-04712EE7655B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeePayRolll", "EmployeePayRolll\EmployeePayRolll.csproj", "{C67CD066-2A01-45ED-8E14-04712EE7655B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeTest", "EmployeeTest\EmployeeTest.csproj", "{D4373C79-32EE-4592-9EC2-53F129A1FA7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C67CD066-2A01-45ED-8E14-04712EE7655B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67CD066-2A01-45ED-8E14-04712EE7655B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67CD066-2A01-45ED-8E14-04712EE7655B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4373C79-32EE-4592-9EC2-53F129A1FA7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4373C79-32EE-4592-9EC2-53F129A1FA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4373C79-32EE-4592-9EC2-53F129A1FA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4373C79-32EE-4592-9EC2-53F129A1FA7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
