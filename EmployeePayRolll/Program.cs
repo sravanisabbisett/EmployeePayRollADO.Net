@@ -8,7 +8,9 @@ namespace EmployeePayRolll
         {
             Console.WriteLine("Hello World!");
             EmployeeRepo employeeRepo = new EmployeeRepo();
-            //employeeRepo.GetAllemployee();
+            //Retrive data from employee table
+            employeeRepo.GetAllemployee();
+            //Add the data
             EmployeeModel employeeModel = new EmployeeModel();
             employeeModel.Name = "Akhilesh";
             employeeModel.Gender = 'M';
@@ -21,7 +23,11 @@ namespace EmployeePayRolll
             employeeModel.IncomeTax = 7890.00;
             employeeModel.TaxablePay = 17.00;
             employeeModel.NetPay = 975000;
+            //Update the data
             employeeRepo.AddEmployee(employeeModel);
+            employeeModel.Name = "Sravani";
+            employeeModel.Basic_Pay = 860000.00;
+            employeeRepo.UpdateEmployee(employeeModel);
             Console.ReadKey();
         }
     }

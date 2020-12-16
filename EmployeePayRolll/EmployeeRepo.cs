@@ -68,6 +68,12 @@ namespace EmployeePayRolll
             }
         }
 
+        /// <summary>
+        /// Adds the Record to the employee.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool AddEmployee(EmployeeModel model)
         {
             try
@@ -100,6 +106,45 @@ namespace EmployeePayRolll
                         return false;
                     }
 
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Updates the person with name.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public bool UpdateEmployee(EmployeeModel model)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand("spUpdateemployee", this.connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Basic_Pay", model.Basic_Pay);
+                    command.Parameters.AddWithValue("@Name", model.Name);
+                    this.connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    this.connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception e)
