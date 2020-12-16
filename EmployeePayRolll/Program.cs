@@ -9,19 +9,10 @@ namespace EmployeePayRolll
         {
             Console.WriteLine("Hello World!");
             EmployeeRepo employeeRepo = new EmployeeRepo();
-            //employeeRepo.GetAllemployee();
-            //List<string> result=employeeRepo.GetEmployeeInDateRange("Select * from employee where StartDate between CAST('2019-01-01' as DATE) and CAST('2020-12-31' as DATE)");
-            //int count = result.Count;
-            //Console.WriteLine(count);
-            // employeeRepo.SumOfSalaryGenderWise();
-            //employeeRepo.MaxSalaryGenderWise();
-            //employeeRepo.MinSalaryGenderWise();
-     //     employeeRepo.CountEmployeeGenderWise();
-            //employeeRepo.SumOfSalaryGenderWise();
-           while (true)
+            while (true)
             {
                 Console.WriteLine("1)SumofsalarybyGender\n" + "2)Maxof salary by genger\n"
-                                   + "4)Min of slary by gender\n" + "5)CountPersonByGender\n");
+                                   + "3)Min of slary by gender\n" + "4)CountPersonByGender\n");
                                    
                 try
                 {

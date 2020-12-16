@@ -50,12 +50,27 @@ namespace EmployeeTest
             Assert.IsTrue(result);
         }
 
+        /// <summary>
+        /// Retrives the data in date range.
+        /// </summary>
         [TestMethod]
         public void RetriveDataInDateRange()
         {
             List<string> result = employeePayRolll.GetEmployeeInDateRange("Select * from employee where StartDate between CAST('2019-01-01' as DATE) and CAST('2020-12-31' as DATE)");
             int CountNoOfPersons = result.Count;
             Assert.AreEqual(3, CountNoOfPersons);
+        }
+
+        /// <summary>
+        /// Deletes the employee.
+        /// </summary>
+        [TestMethod]
+        public void DeleteEmployee()
+        {
+            EmployeeModel employeeModel = new EmployeeModel();
+            employeeModel.Name = "Sravani";
+            bool result = employeePayRolll.DeltePerson(employeeModel);
+            Assert.IsTrue(result);
         }
     }
 }

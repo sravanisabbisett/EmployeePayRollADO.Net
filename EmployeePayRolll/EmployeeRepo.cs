@@ -258,6 +258,10 @@ namespace EmployeePayRolll
         }
 
 
+        /// <summary>
+        /// Maximums the salary gender wise.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void MaxSalaryGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -295,6 +299,10 @@ namespace EmployeePayRolll
             }
         }
 
+        /// <summary>
+        /// Minimums the salary gender wise.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void MinSalaryGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -332,6 +340,10 @@ namespace EmployeePayRolll
             }
         }
 
+        /// <summary>
+        /// Counts the employee gender wise.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void CountEmployeeGenderWise()
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -357,6 +369,41 @@ namespace EmployeePayRolll
                     {
                         Console.WriteLine("No data found");
                     }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Deltes the person.
+        /// </summary>
+        public bool DeltePerson(EmployeeModel employeeModel)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand("spDeleteEmployee", this.connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Name", employeeModel.Name);
+                    this.connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
                 }
             }
             catch (Exception e)
