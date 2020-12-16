@@ -11,8 +11,8 @@ namespace EmployeePayRolll
             EmployeeRepo employeeRepo = new EmployeeRepo();
             while (true)
             {
-                Console.WriteLine("1)SumofsalarybyGender\n" + "2)Maxof salary by genger\n"
-                                   + "3)Min of slary by gender\n" + "4)CountPersonByGender\n");
+                Console.WriteLine("1)SumofsalarybyGender\n" + "2)Avg of salary by genger\n"
+                                   + "3)Min of slary by gender\n" + "4)Max of salary\n"+"5)GetAllemployess");
                                    
                 try
                 {
@@ -23,19 +23,24 @@ namespace EmployeePayRolll
                             employeeRepo.RetriveSum();
                             break;
                         case 2:
-                            employeeRepo.MaxSalaryGenderWise();
+                            employeeRepo.RetriveAvg();
                             break;
                         case 3:
-                            employeeRepo.MinSalaryGenderWise();
+                            employeeRepo.RetriveMin();
                             break;
                         case 4:
-                            employeeRepo.CountEmployeeGenderWise();
+                            employeeRepo.RetriveMax();
+                            break;
+                        case 5:
+                            employeeRepo.GetAllemployee();
+                            break;
+                        case 6:
+                            employeeRepo.SelectDateInRange();
                             break;
                         default:
                             Console.WriteLine("Please Enter correct option");
                             break;
                     }
-                    Console.WriteLine("\n");
                     Console.WriteLine("Do you want to continue(Y / N) ? ");
                     var variable = Console.ReadLine();
                     if (variable.Equals("y"))

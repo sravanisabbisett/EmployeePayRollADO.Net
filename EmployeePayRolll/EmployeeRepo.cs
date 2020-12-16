@@ -22,7 +22,7 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (this.connection)
                 {
-                    string query = @"Select employee_id,Name,Gender,PhoneNumber,Address,StartDate,Department,Basic_Pay,Deductions,IncomeTax,TaxablePay,NetPay from employee";
+                    string query = @"Select employee_id,Name,Gender,PhoneNumber,Address from  employeeDetails";
 
                     SqlCommand command = new SqlCommand(query, this.connection);
                     this.connection.Open();
@@ -36,17 +36,8 @@ namespace EmployeePayRolll
                             employeeModel.Gender = Convert.ToChar(dr.GetString(2));
                             employeeModel.PhoneNumber = dr.GetString(3);
                             employeeModel.Address = dr.GetString(4);
-                            employeeModel.StartDate = dr.GetDateTime(5);
-                            employeeModel.Department = dr.GetString(6);
-                            employeeModel.Basic_Pay = dr.GetDouble(7);
-                            employeeModel.Deductions = dr.GetDouble(8);
-                            employeeModel.IncomeTax = dr.GetDouble(9);
-                            employeeModel.TaxablePay = dr.GetDouble(10);
-                            employeeModel.NetPay = dr.GetDouble(11);
-
-                            Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", employeeModel.employee_id, employeeModel.Name, employeeModel.Gender, employeeModel.PhoneNumber,
-                                employeeModel.Address, employeeModel.StartDate, employeeModel.Department, employeeModel.Basic_Pay, employeeModel.Deductions, employeeModel.IncomeTax,
-                                employeeModel.TaxablePay, employeeModel.NetPay);
+                            Console.WriteLine("{0},{1},{2},{3},{4}", employeeModel.employee_id, employeeModel.Name, employeeModel.Gender, employeeModel.PhoneNumber,
+                                employeeModel.Address);
                         }
                     }
                     else
@@ -67,55 +58,6 @@ namespace EmployeePayRolll
             }
         }
 
-        /// <summary>
-        /// Adds the Record to the employee.
-        /// </summary>
-        /// <param name="model">The model.</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public bool AddEmployee(EmployeeModel model)
-        {
-            try
-            {
-                using (this.connection)
-                {
-                    SqlCommand command = new SqlCommand("spAddEmployee", this.connection);
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Name", model.Name);
-                    command.Parameters.AddWithValue("@Gender", model.Gender);
-                    command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
-                    command.Parameters.AddWithValue("@Address", model.Address);
-                    command.Parameters.AddWithValue("@StartDate", model.StartDate);
-                    command.Parameters.AddWithValue("@Department", model.Department);
-                    command.Parameters.AddWithValue("@Basic_Pay", model.Basic_Pay);
-                    command.Parameters.AddWithValue("@Deductions", model.Deductions);
-                    command.Parameters.AddWithValue("@IncomeTax", model.IncomeTax);
-                    command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
-                    command.Parameters.AddWithValue("@NetPay", model.NetPay);
-                    
-                    this.connection.Open();
-                    var result = command.ExecuteNonQuery();
-                    this.connection.Close();
-                    if (result != 0)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                this.connection.Close();
-            }
-        }
 
         /// <summary>
         /// Updates the person with name.
@@ -132,7 +74,7 @@ namespace EmployeePayRolll
                     SqlCommand command = new SqlCommand("spUpdateemployee", this.connection);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@Basic_Pay", model.Basic_Pay);
-                    command.Parameters.AddWithValue("@Name", model.Name);
+                    command.Parameters.AddWithValue("@employee_id", model.employee_id);
                     this.connection.Open();
                     var result = command.ExecuteNonQuery();
                     this.connection.Close();
@@ -143,231 +85,6 @@ namespace EmployeePayRolll
                     else
                     {
                         return false;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                this.connection.Close();
-            }
-        }
-
-        /// <summary>
-        /// Gets the employee in date range.
-        /// </summary>
-        /// <param name="dateRangeQuery">The date range query.</param>
-        /// <returns></returns>
-        /// <exception cref="System.Exception">
-        /// No data found
-        /// or
-        /// </exception>
-        public List<string> GetEmployeeInDateRange(string dateRangeQuery)
-        {
-            EmployeeModel employeeModel = new EmployeeModel();
-            List<string> results = new List<string>();
-            try
-            {
-                using (this.connection)
-                {
-                    string query = dateRangeQuery;
-                    SqlCommand command = new SqlCommand(query, this.connection);
-                    this.connection.Open();
-                    SqlDataReader dr = command.ExecuteReader();
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            employeeModel.employee_id = dr.GetInt32(0);
-                            employeeModel.Name = dr.GetString(1);
-                            employeeModel.Gender = Convert.ToChar(dr.GetString(2));
-                            employeeModel.PhoneNumber = dr.GetString(3);
-                            employeeModel.Address = dr.GetString(4);
-                            employeeModel.StartDate = dr.GetDateTime(5);
-                            employeeModel.Department = dr.GetString(6);
-                            employeeModel.Basic_Pay = dr.GetDouble(7);
-                            employeeModel.Deductions = dr.GetDouble(8);
-                            employeeModel.IncomeTax = dr.GetDouble(9);
-                            employeeModel.TaxablePay = dr.GetDouble(10);
-                            employeeModel.NetPay = dr.GetDouble(11);
-                            results.Add(employeeModel.Name);
-                            Console.WriteLine(employeeModel.Name);
-                        }
-                        dr.Close();
-                        return results;
-                    }
-                    else
-                    {
-                        throw new Exception("No data found");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                this.connection.Close();
-            }
-        }
-
-        //UC6
-        /// <summary>
-        /// Sums the of salary gender wise.
-        /// </summary>
-        /// <exception cref="System.Exception"></exception>
-        public void SumOfSalaryGenderWise()
-        {
-            SqlConnection connection = new SqlConnection(connectionString);
-            try
-            {
-                using (connection)
-                {
-                    EmployeeModel employeeModel = new EmployeeModel();
-                    string query = @"select Gender,Sum(Basic_Pay) as Salary from employee group by Gender";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
-                    this.connection.Open();
-                    SqlDataReader dr = sqlCommand.ExecuteReader();
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            Console.WriteLine(dr.GetString(0));
-                            Console.WriteLine(dr.GetDouble(1));
-                        }
-                        dr.Close();
-                    }
-                    else
-                    {
-                        Console.WriteLine("No data found");
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                this.connection.Close();
-            }
-        }
-
-
-        /// <summary>
-        /// Maximums the salary gender wise.
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public void MaxSalaryGenderWise()
-        {
-            SqlConnection connection = new SqlConnection(connectionString);
-            try
-            {
-                using (connection)
-                {
-                    EmployeeModel employeeModel = new EmployeeModel();
-                    string query = @"select Gender,Max(Basic_Pay) as Salary from employee group by Gender";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
-                    this.connection.Open();
-                    SqlDataReader dr = sqlCommand.ExecuteReader();
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            Console.WriteLine(dr.GetString(0)+"\t");
-                            Console.WriteLine(dr.GetDouble(1));
-                        }
-                        dr.Close();
-                    }
-                    else
-                    {
-                        Console.WriteLine("No data found");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                this.connection.Close();
-            }
-        }
-
-        /// <summary>
-        /// Minimums the salary gender wise.
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public void MinSalaryGenderWise()
-        {
-            SqlConnection connection = new SqlConnection(connectionString);
-            try
-            {
-                using (connection)
-                {
-                    EmployeeModel employeeModel = new EmployeeModel();
-                    string query = @"select Gender,Min(Basic_Pay) as Salary from employee group by Gender";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
-                    this.connection.Open();
-                    SqlDataReader dr = sqlCommand.ExecuteReader();
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            Console.WriteLine(dr.GetString(0)+"\t");
-                            Console.WriteLine(dr.GetDouble(1));
-                        }
-                        dr.Close();
-                    }
-                    else
-                    {
-                        Console.WriteLine("No data found");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-            finally
-            {
-                this.connection.Close();
-            }
-        }
-
-        /// <summary>
-        /// Counts the employee gender wise.
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public void CountEmployeeGenderWise()
-        {
-            SqlConnection connection = new SqlConnection(connectionString);
-            try
-            {
-                using (connection)
-                {
-                    EmployeeModel employeeModel = new EmployeeModel();
-                    string query = @"select Gender,Count(Gender) as Salary from employee group by Gender";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
-                    this.connection.Open();
-                    SqlDataReader dr = sqlCommand.ExecuteReader();
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            Console.WriteLine(dr.GetString(0)+"\t");
-                            Console.WriteLine(dr.GetInt32(1));
-                        }
-                        dr.Close();
-                    }
-                    else
-                    {
-                        Console.WriteLine("No data found");
                     }
                 }
             }
@@ -569,5 +286,206 @@ namespace EmployeePayRolll
             }
         }
 
+        /// <summary>
+        /// Retrives the sum.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void RetriveSum()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select gender,Sum(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = sqlCommand.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(0));
+                            employeeModel.Basic_Pay = dr.GetDouble(1);
+                            Console.WriteLine(employeeModel.Gender + " " + employeeModel.Basic_Pay);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Retrives the average.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void RetriveAvg()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select gender,Avg(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = sqlCommand.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(0));
+                            employeeModel.Basic_Pay = dr.GetDouble(1);
+                            Console.WriteLine(employeeModel.Gender + " " + employeeModel.Basic_Pay);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Retrives the minimum.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+/        public void RetriveMin()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select gender,Min(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = sqlCommand.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(0));
+                            employeeModel.Basic_Pay = dr.GetDouble(1);
+                            Console.WriteLine(employeeModel.Gender + " " + employeeModel.Basic_Pay);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+
+        /// <summary>
+        /// Retrives the maximum.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        public void RetriveMax()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select gender,Max(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dr = sqlCommand.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(0));
+                            employeeModel.Basic_Pay = dr.GetDouble(1);
+                            Console.WriteLine(employeeModel.Gender + " " + employeeModel.Basic_Pay);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Selects the date in range.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+/        public void SelectDateInRange()
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    EmployeeModel employeeModel = new EmployeeModel();
+                    string query = @"Select StartDate,employee_id from payroll where StartDate between CAST('2019-01-01' as DATE) and CAST('2020-12-31' as DATE)";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader dataReader = sqlCommand.ExecuteReader();
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            employeeModel.StartDate = dataReader.GetDateTime(0);
+                            employeeModel.employee_id = dataReader.GetInt32(1);
+                            Console.WriteLine(employeeModel.StartDate + "," + employeeModel.employee_id);
+                            Console.WriteLine("{0},{1}", employeeModel.StartDate, employeeModel.employee_id);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
