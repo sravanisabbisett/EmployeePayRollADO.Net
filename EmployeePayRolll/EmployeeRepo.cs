@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -21,7 +22,8 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (this.connection)
                 {
-                    string query = @"Select employee_id,Name,Gender,PhoneNumber,Address,StartDate,Department,Basic_Pay,Deductions,IncomeTax,TaxablePay,NetPay from employee";
+                    string query = @"Select employee_id,Name,Gender,PhoneNumber,Address,StartDate,Department,Basic_Pay,Deductions,
+                                                                                            IncomeTax,TaxablePay,NetPay from employee";
 
                     SqlCommand command = new SqlCommand(query, this.connection);
                     this.connection.Open();
@@ -54,6 +56,50 @@ namespace EmployeePayRolll
                     }
                     dr.Close();
                     this.connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        public bool AddEmployee(EmployeeModel model)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand("spAddEmployee", this.connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@Name", model.Name);
+                    command.Parameters.AddWithValue("@Gender", model.Gender);
+                    command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
+                    command.Parameters.AddWithValue("@Address", model.Address);
+                    command.Parameters.AddWithValue("@StartDate", model.StartDate);
+                    command.Parameters.AddWithValue("@Department", model.Department);
+                    command.Parameters.AddWithValue("@Basic_Pay", model.Basic_Pay);
+                    command.Parameters.AddWithValue("@Deductions", model.Deductions);
+                    command.Parameters.AddWithValue("@IncomeTax", model.IncomeTax);
+                    command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
+                    command.Parameters.AddWithValue("@NetPay", model.NetPay);
+                    
+                    this.connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    this.connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
                 }
             }
             catch (Exception e)
