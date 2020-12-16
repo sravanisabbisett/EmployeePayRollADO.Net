@@ -20,7 +20,7 @@ namespace EmployeePayRolll
                     switch (choice)
                     {
                         case 1:
-                            employeeRepo.SumOfSalaryGenderWise();
+                            employeeRepo.RetriveSum();
                             break;
                         case 2:
                             employeeRepo.MaxSalaryGenderWise();

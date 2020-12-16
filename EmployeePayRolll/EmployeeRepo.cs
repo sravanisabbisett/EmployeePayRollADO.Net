@@ -415,5 +415,159 @@ namespace EmployeePayRolll
                 this.connection.Close();
             }
         }
+
+        /// <summary>
+        /// Adds the department.
+        /// </summary>
+        /// <param name="employeeModel">The employee model.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public bool AddDepartment(EmployeeModel employeeModel)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("spAddDemartment", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Department", employeeModel.Department);
+                    this.connection.Open();
+                    var result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Adds the employee into employee details.
+        /// </summary>
+        /// <param name="employeeModel">The employee model.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public bool AddEmployeeIntoEmployeeDetails(EmployeeModel employeeModel)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("spAddEmployeeDetails", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Name", employeeModel.Name);
+                    sqlCommand.Parameters.AddWithValue("@Gender", employeeModel.Gender);
+                    sqlCommand.Parameters.AddWithValue("@PhoneNumber", employeeModel.PhoneNumber);
+                    sqlCommand.Parameters.AddWithValue("@Address", employeeModel.Address);
+                    this.connection.Open();
+                    var result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Adds the detals to pay roll table.
+        /// </summary>
+        /// <param name="employeeModel">The employee model.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public bool AddDetalsToPayRollTable(EmployeeModel employeeModel)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("spAddPayRollDetails", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@StartDate", employeeModel.StartDate);
+                    sqlCommand.Parameters.AddWithValue("@Basic_Pay", employeeModel.Basic_Pay);
+                    sqlCommand.Parameters.AddWithValue("@Deductions", employeeModel.Deductions);
+                    sqlCommand.Parameters.AddWithValue("@IncomeTax", employeeModel.IncomeTax);
+                    sqlCommand.Parameters.AddWithValue("@TaxablePay", employeeModel.TaxablePay);
+                    sqlCommand.Parameters.AddWithValue("@NetPay", employeeModel.NetPay);
+                    sqlCommand.Parameters.AddWithValue("@employee_id", employeeModel.employee_id);
+                    this.connection.Open();
+                    var result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        public bool AddDetailsToDepartMentTable(EmployeeModel employeeModel)
+        {
+            try
+            {
+                using (this.connection)
+                {
+                    SqlCommand sqlCommand = new SqlCommand("spAddEmployeeDepartMent", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Employee_Id", employeeModel.employee_id);
+                    sqlCommand.Parameters.AddWithValue("@Department_Id", employeeModel.departmentId);
+                    this.connection.Open();
+                    var result = sqlCommand.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
     }
 }

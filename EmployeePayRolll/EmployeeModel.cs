@@ -18,5 +18,6 @@ namespace EmployeePayRolll
         public double IncomeTax { get; set; }
         public double TaxablePay { get; set; }
         public double NetPay { get; set; }
+        public int departmentId { get; set; }
     }
 }
