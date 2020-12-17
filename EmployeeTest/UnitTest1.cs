@@ -61,6 +61,7 @@ namespace EmployeeTest
             Assert.IsTrue(result);
         }
 
+
         [TestMethod]
         public void AddDetailsInPayrollTable()
         {
@@ -83,6 +84,24 @@ namespace EmployeeTest
             employeeModel.employee_id = 3;
             employeeModel.departmentId = 3;
             bool result = employeePayRolll.AddDetailsToDepartMentTable(employeeModel);
+            Assert.IsTrue(result);
+        }
+
+        /// <summary>
+        /// Adds the details to multiple tables in single transction.
+        /// </summary>
+        [TestMethod]
+        public void addDetailsToMultipleTablesInSingleTransction()
+        {
+            EmployeeModel employeeModel = new EmployeeModel();
+            employeeModel.Name = "Rupika";
+            employeeModel.Gender = 'F';
+            employeeModel.PhoneNumber = "929081527";
+            employeeModel.Address = "Madhapur";
+            employeeModel.Basic_Pay = 80000.00;
+            employeeModel.StartDate = new DateTime(2020, 10, 10);
+            employeeModel.departmentId = 2;
+            bool result = employeePayRolll.AddEmployeeDetailsMultipleTables(employeeModel);
             Assert.IsTrue(result);
         }
     }

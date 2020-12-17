@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace EmployeePayRolll
 {
@@ -12,7 +13,7 @@ namespace EmployeePayRolll
             while (true)
             {
                 Console.WriteLine("1)SumofsalarybyGender\n" + "2)Avg of salary by genger\n"
-                                   + "3)Min of slary by gender\n" + "4)Max of salary\n"+"5)GetAllemployess");
+                                   + "3)Min of slary by gender\n" + "4)Max of salary\n"+"5)GetAllemployess\n"+"6)Select date in range");
                                    
                 try
                 {
@@ -54,7 +55,7 @@ namespace EmployeePayRolll
                 }
                 catch (System.FormatException formatException)
                 {
-                    Console.WriteLine(formatException);
+                    Console.WriteLine(formatException.Message);
                 }
                 
             }
