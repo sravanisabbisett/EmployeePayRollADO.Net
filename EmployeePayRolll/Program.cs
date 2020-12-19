@@ -10,6 +10,7 @@ namespace EmployeePayRolll
         {
             Console.WriteLine("Hello World!");
             EmployeeRepo employeeRepo = new EmployeeRepo();
+            EmployeeModel employeeModel = new EmployeeModel();
             while (true)
             {
                 Console.WriteLine("1)SumofsalarybyGender\n" + "2)Avg of salary by genger\n"
@@ -36,7 +37,9 @@ namespace EmployeePayRolll
                             employeeRepo.GetAllemployee();
                             break;
                         case 6:
-                            employeeRepo.SelectDateInRange();
+                            employeeModel.StartDate = new DateTime(2018, 01, 01);
+                            employeeModel.StartDate = new DateTime(2019, 12, 31);
+                            employeeRepo.SelectDateInRange(employeeModel);
                             break;
                         default:
                             Console.WriteLine("Please Enter correct option");
@@ -61,6 +64,7 @@ namespace EmployeePayRolll
             }
             Console.ReadKey();
         }
-        
+
     }
 }
+

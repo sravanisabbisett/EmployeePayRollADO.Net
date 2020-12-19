@@ -23,9 +23,8 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (connection)
                 {
-                    string query = @"Select employee_id,Name,Gender,PhoneNumber,Address from  employeeDetails";
-
-                    SqlCommand command = new SqlCommand(query, connection);
+                    SqlCommand command = new SqlCommand("spRetriveAllEmployee", connection);
+                    command.CommandType = CommandType.StoredProcedure;
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
                     if (dr.HasRows)
@@ -300,8 +299,8 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (connection)
                 {
-                    string query = @"select gender,Sum(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
-                    SqlCommand sqlCommand = new SqlCommand(query, connection);
+                    SqlCommand sqlCommand = new SqlCommand("spSumOfSalaryByGender", connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
                     connection.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
                     if (dr.HasRows)
@@ -343,8 +342,8 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (connection)
                 {
-                    string query = @"select gender,Avg(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    SqlCommand sqlCommand = new SqlCommand("spAvgSalaryByGender", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
                     this.connection.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
                     if (dr.HasRows)
@@ -386,8 +385,8 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (connection)
                 {
-                    string query = @"select gender,Min(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    SqlCommand sqlCommand = new SqlCommand("spMinSalaryByGender", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
                     this.connection.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
                     if (dr.HasRows)
@@ -430,8 +429,8 @@ namespace EmployeePayRolll
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (connection)
                 {
-                    string query = @"select gender,Max(payroll.Basic_pay) as Max_Pay from payRoll payroll inner join employeeDetails emp on payroll.employee_id = emp.employee_id group by gender;";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    SqlCommand sqlCommand = new SqlCommand("spMaxSalaryByGender", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
                     this.connection.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
                     if (dr.HasRows)
@@ -466,16 +465,17 @@ namespace EmployeePayRolll
         /// </summary>
         /// <exception cref="Exception"></exception>
         /// 
-        public void SelectDateInRange()
+        public void SelectDateInRange(EmployeeModel employeeModel)
         {
             SqlConnection connection = new SqlConnection(connectionString);
             try
             {
                 using (connection)
                 {
-                    EmployeeModel employeeModel = new EmployeeModel();
-                    string query = @"Select StartDate,employee_id from payroll where StartDate between CAST('2019-01-01' as DATE) and CAST('2020-12-31' as DATE)";
-                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    SqlCommand sqlCommand = new SqlCommand("spRetriveDateInSpecificDate", this.connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Date1", employeeModel.StartDate);
+                    sqlCommand.Parameters.AddWithValue("@Date2", employeeModel.StartDate);
                     this.connection.Open();
                     SqlDataReader dataReader = sqlCommand.ExecuteReader();
                     if (dataReader.HasRows)
@@ -484,7 +484,6 @@ namespace EmployeePayRolll
                         {
                             employeeModel.StartDate = dataReader.GetDateTime(0);
                             employeeModel.employee_id = dataReader.GetInt32(1);
-                            Console.WriteLine(employeeModel.StartDate + "," + employeeModel.employee_id);
                             Console.WriteLine("{0},{1}", employeeModel.StartDate, employeeModel.employee_id);
                         }
                     }

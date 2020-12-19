@@ -2,6 +2,7 @@ using EmployeePayRolll;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EmployeeTest
 {
@@ -104,5 +105,38 @@ namespace EmployeeTest
             bool result = employeePayRolll.AddEmployeeDetailsMultipleTables(employeeModel);
             Assert.IsTrue(result);
         }
+
+        public  List<EmployeeModel> AddingDataToList()
+        {
+            List<EmployeeModel> employeeModels = new List<EmployeeModel>();
+            employeeModels.Add(new EmployeeModel { Name = "Sravani", Gender = 'F', PhoneNumber = "8712443377", Address = "GanadhiChowk", StartDate = new DateTime(2018,12,19), Department = "Fianace", Basic_Pay = 908765, Deductions = 567, IncomeTax = 9087, TaxablePay = 0987, NetPay = 900000 });
+            employeeModels.Add(new EmployeeModel { Name = "Rupika", Gender = 'F', PhoneNumber = "5712443377", Address = "GanadhiChowk", StartDate = new DateTime(2018,12,19), Department = "Fianace", Basic_Pay = 908765, Deductions = 567, IncomeTax = 9087, TaxablePay = 0987, NetPay = 900000 });
+            employeeModels.Add(new EmployeeModel { Name = "Shanu", Gender = 'F', PhoneNumber = "9712443377", Address = "VyjayanthiTraders", StartDate = new DateTime(2018,12,19), Department = "Fianace", Basic_Pay = 908765, Deductions = 567, IncomeTax = 9087, TaxablePay = 0987, NetPay = 900000 });
+            employeeModels.Add(new EmployeeModel { Name = "Sravi", Gender = 'F', PhoneNumber = "9712443377", Address = "GanadhiChowk", StartDate = new DateTime(2018,12,19), Department = "Fianace", Basic_Pay = 908765, Deductions = 567, IncomeTax = 9087, TaxablePay = 0987, NetPay = 900000 });
+            employeeModels.Add(new EmployeeModel { Name = "Laskmi", Gender = 'F', PhoneNumber = "7712443377", Address = "GanadhiChowk", StartDate = new DateTime(2018,12,19), Department = "Fianace", Basic_Pay = 908765, Deductions = 567, IncomeTax = 9087, TaxablePay = 0987, NetPay = 900000 });
+            employeeModels.Add(new EmployeeModel { Name = "sri", Gender = 'F', PhoneNumber = "9712443377", Address = "GanadhiChowk", StartDate = new DateTime(2018,12,19), Department = "Fianace", Basic_Pay = 908765, Deductions = 567, IncomeTax = 9087, TaxablePay = 0987, NetPay = 900000 });
+            employeeModels.Add(new EmployeeModel { Name = "sravanaLakshmi", Gender = 'F', PhoneNumber = "7712443377", Address = "GanadhiChowk", StartDate = new DateTime(2018,12,19), Department = "Fianace", Basic_Pay = 908765, Deductions = 567, IncomeTax = 9087, TaxablePay = 0987, NetPay = 900000 });
+            return employeeModels;
+        }
+
+        /// <summary>
+        /// Adds to list with out threading.
+        /// </summary>
+        [TestMethod]
+        public void AddToListWithOutThreading()
+        {
+            List<EmployeeModel> empList = AddingDataToList();
+            bool expected = true;
+            MultiThreading multiThreading = new MultiThreading();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            bool actual=multiThreading.AddMultipleElementToDB(empList);
+            stopwatch.Stop();
+            Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
+            Assert.AreEqual(expected, actual);
+
+        }
+
     }
 }
+
