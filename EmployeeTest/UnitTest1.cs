@@ -208,6 +208,33 @@ namespace EmployeeTest
             Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
             Assert.AreEqual(expected, actual);
         }
+
+        public List<EmployeeModel> AddEmployeetoMultipltTable()
+        {
+            List<EmployeeModel> addMultipleTablesList = new List<EmployeeModel>();
+            addMultipleTablesList.Add(new EmployeeModel { Name = "Manju", Gender = 'F', PhoneNumber = "8907654321", Address = "Gandhi",StartDate=new DateTime(2019,12,31), Basic_Pay = 90000.00, departmentId = 2 });
+            addMultipleTablesList.Add(new EmployeeModel { Name = "Navya", Gender = 'F', PhoneNumber = "8907654321", Address = "Guntur",StartDate=new DateTime(2018,02,28), Basic_Pay = 70000.00, departmentId = 1 });
+            addMultipleTablesList.Add(new EmployeeModel { Name = "Lipica", Gender = 'F', PhoneNumber = "8907654321", Address = "Eluru",StartDate=new DateTime(2020,07,31), Basic_Pay = 80000.00, departmentId = 3 });
+            return addMultipleTablesList;
+
+        }
+
+        /// <summary>
+        /// Adds the employee to multiple tables with threading.
+        /// </summary>
+        [TestMethod]
+        public void AddEmployeeToMultipleTablesWithThreading()
+        {
+            List<EmployeeModel> empList = AddEmployeetoMultipltTable();
+            bool expected = true;
+            EmployeeRepo employeeRepo = new EmployeeRepo();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            bool actual = employeeRepo.AddEmployeeMultipleTablesWithThreading(empList);
+            stopwatch.Stop();
+            Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
 

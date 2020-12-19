@@ -572,5 +572,27 @@ namespace EmployeePayRolll
             });
             return result;
         }
+
+        /// <summary>
+        /// Adds the employee multiple tables with threading.
+        /// </summary>
+        /// <param name="employees">The employees.</param>
+        /// <returns></returns>
+        public bool AddEmployeeMultipleTablesWithThreading(List<EmployeeModel> employees)
+        {
+            bool result = false;
+            employees.ForEach(employeeData =>
+            {
+                Thread thread = new Thread(() =>
+                {
+                    result = AddEmployeeDetailsMultipleTables(employeeData);
+                    Console.WriteLine("Employee added" + employeeData.Name);
+                });
+                // Start all the threads
+                thread.Start();
+                thread.Join();
+            });
+            return result;
+        }
     }
 }
