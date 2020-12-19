@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading;
 
 namespace EmployeePayRolll
 {
@@ -67,9 +68,10 @@ namespace EmployeePayRolll
         /// <exception cref="Exception"></exception>
         public bool UpdateEmployee(EmployeeModel model)
         {
+            SqlConnection connection = new SqlConnection(connectionString);
             try
             {
-                using (this.connection)
+                using (connection)
                 {
                     SqlCommand command = new SqlCommand("spUpdateemployee", this.connection);
                     command.CommandType = CommandType.StoredProcedure;
@@ -547,6 +549,28 @@ namespace EmployeePayRolll
             {
                 this.connection.Close();
             }
+        }
+
+        /// <summary>
+        /// Updates the multiple employee to data base with threading.
+        /// </summary>
+        /// <param name="employees">The employees.</param>
+        /// <returns></returns>
+        public bool UpdateMultipleEmployeeToDataBaseWithThreading(List<EmployeeModel> employees)
+        {
+            bool result = false;
+            employees.ForEach(employeeData =>
+            {
+                Thread thread = new Thread(() =>
+                {
+                    result = UpdateEmployee(employeeData);
+                    Console.WriteLine("Employee added" + employeeData.Name);
+                });
+                // Start all the threads
+                thread.Start();
+                thread.Join();
+            });
+            return result;
         }
     }
 }

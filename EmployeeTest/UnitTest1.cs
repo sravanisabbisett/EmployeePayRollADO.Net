@@ -183,6 +183,31 @@ namespace EmployeeTest
             stopwatch.Stop();
             Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
         }
+
+        
+        public List<EmployeeModel> updateList()
+        {
+            List<EmployeeModel> upadateList = new List<EmployeeModel>();
+            upadateList.Add( new EmployeeModel { employee_id=2,Basic_Pay=1200000});
+            upadateList.Add(new EmployeeModel { employee_id = 3, Basic_Pay = 78906 });
+            upadateList.Add(new EmployeeModel { employee_id = 7, Basic_Pay = 90876 });
+            return upadateList;
+
+        }
+
+        [TestMethod]
+        public void UpdateEmployeeDataBaseWithThreading()
+        {
+            List<EmployeeModel> empList = updateList();
+            bool expected = true;
+            EmployeeRepo employeeRepo = new EmployeeRepo();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            bool actual = employeeRepo.UpdateMultipleEmployeeToDataBaseWithThreading(empList);
+            stopwatch.Stop();
+            Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
 

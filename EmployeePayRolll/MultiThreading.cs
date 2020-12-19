@@ -13,6 +13,7 @@ namespace EmployeePayRolll
         public List<EmployeeModel> employeeDataList = new List<EmployeeModel>();
         public static string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EmployeePayRollService;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
+        Mutex mutex = new Mutex();
         public bool AddEmployee(EmployeeModel model)
         {
             SqlConnection connection = new SqlConnection(connectionString);
@@ -125,6 +126,7 @@ namespace EmployeePayRolll
             });
             return result;
         }
+
 
         public void AddEmployeePayroll(EmployeeModel employee)
         {
