@@ -123,7 +123,7 @@ namespace EmployeeTest
         /// Adds to list with out threading.
         /// </summary>
         [TestMethod]
-        public void AddToListWithOutThreading()
+        public void AddToDataBaseWithOutThreading()
         {
             List<EmployeeModel> empList = AddingDataToList();
             bool expected = true;
@@ -137,6 +137,52 @@ namespace EmployeeTest
 
         }
 
+        /// <summary>
+        /// Adds to data base with threading.
+        /// </summary>
+        [TestMethod]
+        public void AddToDataBaseWithThreading()
+        {
+            List<EmployeeModel> empList = AddingDataToList();
+            bool expected = true;
+            MultiThreading multiThreading = new MultiThreading();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            bool actual = multiThreading.AddMultipleEmployeeToDataBaseWithThreading(empList);
+            stopwatch.Stop();
+            Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// Adds to list with threading.
+        /// </summary>
+        [TestMethod]
+        public void AddToListWithThreading()
+        {
+            List<EmployeeModel> empList = AddingDataToList();
+            MultiThreading multiThreading = new MultiThreading();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            multiThreading.AddEmployeeeWithMultiThreading(empList);
+            stopwatch.Stop();
+            Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
+        }
+
+        /// <summary>
+        /// Adds to list with out threading.
+        /// </summary>
+        [TestMethod]
+        public void AddToListWithOutThreading()
+        {
+            List<EmployeeModel> empList = AddingDataToList();
+            MultiThreading multiThreading = new MultiThreading();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            multiThreading.AddEmployeeToPayRoll(empList);
+            stopwatch.Stop();
+            Console.WriteLine("Time taken to add to db without threads is :{0} ms", stopwatch.ElapsedMilliseconds);
+        }
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EmployeePayRolll
@@ -83,6 +84,10 @@ namespace EmployeePayRolll
             return true;
         }
 
+        /// <summary>
+        /// Adds the employeee with multi threading.
+        /// </summary>
+        /// <param name="employees">The employees.</param>
         public void AddEmployeeeWithMultiThreading(List<EmployeeModel> employees)
         {
             employees.ForEach(employee =>
@@ -98,6 +103,28 @@ namespace EmployeePayRolll
             Console.WriteLine(this.employeeDataList.Count);
         }
 
+
+        /// <summary>
+        /// Adds the multiple employee to data base with threading.
+        /// </summary>
+        /// <param name="employees">The employees.</param>
+        /// <returns></returns>
+        public bool AddMultipleEmployeeToDataBaseWithThreading(List<EmployeeModel> employees)
+        {
+            bool result = false;
+            employees.ForEach(employeeData =>
+            {
+                Thread thread = new Thread(() =>
+                {
+                    result = AddEmployee(employeeData);
+                    Console.WriteLine("Employee added" + employeeData.Name);
+                });
+                // Start all the threads
+                thread.Start();
+                thread.Join();
+            });
+            return result;
+        }
 
         public void AddEmployeePayroll(EmployeeModel employee)
         {
